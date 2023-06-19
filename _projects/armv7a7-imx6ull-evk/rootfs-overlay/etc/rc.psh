@@ -1,4 +1,5 @@
 :{}:
 W /bin/bind devfs /dev
+W /bin/mount /dev/flashnor2 /mnt/meter meterfs 0
 X /bin/posixsrv
 X /bin/psh

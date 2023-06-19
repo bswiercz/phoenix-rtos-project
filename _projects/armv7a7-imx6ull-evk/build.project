@@ -14,6 +14,21 @@
 export KERNEL_PLO_BOOT=y
 export PLO_NOR_BOOT=y
 
+
+#
+# Ports configuration
+#
+export PORTS_BUSYBOX=y
+export PORTS_PCRE=n
+export PORTS_OPENSSL=n
+export PORTS_LIGHTTPD=n
+export PORTS_DROPBEAR=n
+export PORTS_LUA=n
+export PORTS_LZO=n
+export PORTS_OPENVPN=n
+export PORTS_JANSSON=n
+export PORTS_CURL=n
+
 #
 # PLO configuration
 #
@@ -34,8 +49,10 @@ FLASH_IMAGE=y
 #
 # Fs data
 #
+METERFS_SZ=$((0x800000))
 FS_OFFS=$((0x100000))
-FS_SZ=$((0x2000000 - FS_OFFS))
+FS_SZ=$((0x2000000 - FS_OFFS - METERFS_SZ))
+METERFS_OFFS=$((FS_OFFS + FS_SZ))
 
 # Pre-init script is launched before user script
 PREINIT_SCRIPT=(
@@ -63,7 +80,7 @@ PRIMARY_SCRIPT=(
 	"kernel ${BOOT_DEVICE}"
 	"app ${BOOT_DEVICE} -x dummyfs;-N;devfs;-D ddr ddr"
 	"app ${BOOT_DEVICE} -x imx6ull-uart ddr ddr"
-	"app ${BOOT_DEVICE} -x imx6ull-flashnor;-q;1;-r;0;${FS_OFFS};${FS_SZ};jffs2 ddr ddr"
+	"app ${BOOT_DEVICE} -x imx6ull-flashnor;-q;1;-r;0;${FS_OFFS};${FS_SZ};jffs2;-p;0;${METERFS_OFFS};${METERFS_SZ} ddr ddr"
 	"app ${BOOT_DEVICE} -x psh;-i;/etc/rc.psh ddr ddr"
 	"go!"
 )
