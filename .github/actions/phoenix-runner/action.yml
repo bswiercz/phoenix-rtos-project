@@ -14,7 +14,7 @@ inputs:
   nightly:
     description: 'Run nightly mode'
     default: false
-    requited: false
+    required: false
 
 
 # action runner
